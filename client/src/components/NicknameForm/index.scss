@@ -1,0 +1,16 @@
+/**
+ * @style
+ * Styles for the `.title-box` component.
+ *
+ * @modifier __item - Sets the font size to 2rem for title text.
+ * @modifier __margin - Adds a bottom margin of 3rem for spacing below the title.
+ */
+.title-box {
+  &__item {
+    font-size: 2rem;
+  }
+
+  &__margin {
+    margin-bottom: 3rem;
+  }
+}

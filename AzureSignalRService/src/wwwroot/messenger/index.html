@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SignalR Messenger</title>
+    <style>
+        #messages { margin-top: 20px; }
+        .message { margin: 5px; padding: 5px; }
+    </style>
+</head>
+<body>
+    <div>
+        <input type="text" id="userInput" placeholder="Enter your name">
+        <input type="text" id="messageInput" placeholder="Enter your message">
+        <button id="sendButton">Send Message</button>
+    </div>
+    <div id="messages"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.0/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/messenger/hub")
+            .withAutomaticReconnect()
+            .build();
+
+        connection.start()
+            .then(() => console.log('Connected!'))
+            .catch(err => console.error('Connection failed:', err));
+
+        document.getElementById("sendButton").addEventListener("click", async () => {
+            const user = document.getElementById("userInput").value;
+            const message = document.getElementById("messageInput").value;
+            
+            if (user && message) {
+                try {
+                    await connection.invoke("SendMessage", user, message);
+                    document.getElementById("messageInput").value = '';
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        });
+
+        connection.on("ReceiveMessage", (user, message) => {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = "message";
+            messageDiv.textContent = `${user}: ${message}`;
+            document.getElementById("messages").appendChild(messageDiv);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,24 @@
+/**
+ * Styles for the message input container and textarea inside the chat input component.
+ *
+ * @class .textarea-box
+ *   Container wrapper for the textarea and button.
+ *
+ * @modifier &.outline-item
+ *   Adds border, rounded corners, background, and full width to the container.
+ *
+ * @element &__item
+ *   Styles the textarea element to take the full width minus space for the send button.
+ */
+.textarea-box {
+  &.outline-item {
+    border: 1px solid var(--ion-color-medium, #ccc);
+    border-radius: 8px;
+    background: #fff;
+    width: 100%;
+  }
+
+  &__item {
+    width: calc(100% - 105px) !important;
+  }
+}
